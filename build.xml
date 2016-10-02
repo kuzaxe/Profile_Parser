@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. -->
+<project basedir="." default="build" name="Assignment3">
+	<property environment="env" />
+	<property name="debuglevel" value="source,lines,vars" />
+	<property name="target" value="1.7" />
+	<property name="source" value="1.7" />
+	<path id="Assignment3.classpath">
+		<pathelement location="bin" />
+		<pathelement location="libs/junit-4.12.jar" />
+		<pathelement location="libs/hamcrest-core-1.3.jar" />
+		<pathelement location="libs/commons-lang3-3.4.jar" />
+	</path>
+	<target name="init">
+		<mkdir dir="bin" />
+		<copy includeemptydirs="false" todir="bin">
+			<fileset dir="src">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+	<target name="clean">
+		<delete dir="bin" />
+	</target>
+	<target depends="clean" name="cleanall" />
+	<target depends="build-project,MyParser,junit" name="build" />
+	<target depends="init" name="build-project">
+		<javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+			<src path="src" />
+			<classpath refid="Assignment3.classpath" />
+		</javac>
+	</target>
+	<target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects" />
+	<target name="MyParser">
+		<java classname="driver.MyParser" failonerror="true" fork="yes">
+			<arg line="sample1.html,sample2.html" />
+			<classpath refid="Assignment3.classpath" />
+		</java>
+	</target>
+
+	<target name="junit">
+		<junit printsummary="true" showoutput="true" fork="false" haltonfailure="false">
+			<formatter type="plain" usefile="false" />
+			<classpath refid="Assignment3.classpath" />
+
+			<test name="test.HTMLMatcherTest" />
+			<test name="test.OutputFormatterTest" />
+		</junit>
+	</target>
+
+</project>
